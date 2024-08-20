@@ -1,0 +1,33 @@
+package Itens;
+
+public class Arma extends Item {
+    String nome;
+    int ataque;
+    int ataqueEspecial;
+
+    public Arma(String nome, int precoOuro, int ataque, int ataqueEspecial) {
+        super(nome, precoOuro);
+        this.nome=nome;
+        this.ataque = ataque;
+        this.ataqueEspecial = ataqueEspecial;
+    }
+
+    @Override
+    public void mostrarDetalhes() {
+        super.mostrarDetalhes();
+        System.out.println("Ataque: " + ataque + ", Ataque Especial: " + ataqueEspecial);
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getAtaque() {
+        return ataque;
+    }
+
+    public int getAtaqueEspecial() {
+        return ataqueEspecial;
+    }
+}
+
