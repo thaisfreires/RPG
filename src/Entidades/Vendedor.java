@@ -44,8 +44,9 @@ public class Vendedor {
         this.imprimirLoja();
 
         Scanner input = new Scanner(System.in);
+        System.out.println(ConsoleColors.YELLOW + "\n - Digite o número do item escolhido ou digite 0 para sair da loja >>> " + ConsoleColors.RESET);
+
         int itemEscolhido = input.nextInt();
-        System.out.println(ConsoleColors.YELLOW + "\n - Digite o número do item escolhido ou digite 0 para sair da loja >>> " + itemEscolhido + ConsoleColors.RESET);
 
         // Checa se o item é válido
         if (itemEscolhido > 0 && itemEscolhido <= this.loja.size()) {

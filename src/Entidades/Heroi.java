@@ -56,6 +56,10 @@ public abstract class Heroi extends Entidade {
      * Método para usar consumível com o input do utilizador.
      */
     public void usarConsumivel (NPC npc){
+        if (this.inventario.isEmpty()){
+            System.out.println(ConsoleColors.RED + " **** INVENTÁRIO VAZIO " + ConsoleColors.RESET);
+            return;
+        }
         //Lista os itens do Inventário de Consumíveis
         int i = 1;
         for (Item item : this.inventario) {
@@ -84,9 +88,7 @@ public abstract class Heroi extends Entidade {
             System.out.println(" >>> Saindo do inventário ");
         } else {
             System.out.println("⚠ Opção Inválida ⚠");        }
-        if (this.inventario.isEmpty()){
-            System.out.println(ConsoleColors.RED + " **** INVENTÁRIO VAZIO " + ConsoleColors.RESET);
-        }
+
     }
     /**
      * Método que escolhe um consumível e o remove do inventário

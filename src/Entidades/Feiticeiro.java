@@ -53,17 +53,17 @@ public class Feiticeiro extends Heroi {
                 System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
                 System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
 
-                System.out.println(ConsoleColors.RED_BOLD + "\n--- ATAQUE DO HERÓI ---\n" + ConsoleColors.RESET);
-                System.out.println(ConsoleColors.RED + this.nome + " se prepara, segurando firmemente sua " + armaPrincipal.getNome() + "...");
+                System.out.println("\n            ATAQUE DO HERÓI \n");
+                System.out.println(this.nome + " se prepara, segurando firmemente sua " + armaPrincipal.getNome() + "...");
                 System.out.println("\n \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5 \n");
-                System.out.println(ConsoleColors.RED + "Você atacou " + npc.nome + " com um ataque normal, causando " + (this.forca + armaPrincipal.getAtaque()) + " de dano!");
+                System.out.println("Você atacou " + npc.nome + " com um ataque normal, causando " + (this.forca + armaPrincipal.getAtaque()) + " de dano!");
 
                 Scanner scannerAtaque = new Scanner(System.in);
                 System.out.println("\nPressione Enter para receber ataque");
                 scannerAtaque.nextLine();
 
-                System.out.println(ConsoleColors.RED_BOLD + "\n--- ATAQUE DO INIMIGO ---\n" + ConsoleColors.RESET);
-                System.out.println(ConsoleColors.RED + npc.nome + " reagiu e atacou " + this.nome + ", causando " + npc.forca + " de dano!" + ConsoleColors.RESET);
+                System.out.println("\n            ATAQUE DO INIMIGO \n" + ConsoleColors.RESET);
+                System.out.println(npc.nome + " reagiu e atacou " + this.nome + ", causando " + npc.forca + " de dano!" + ConsoleColors.RESET);
                 System.out.println("\n \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8 \n");
 
                 break;
@@ -81,23 +81,23 @@ public class Feiticeiro extends Heroi {
                 // Ataque Especial do herói
                 npc.hp -= this.forca + armaPrincipal.getAtaqueEspecial();
                 this.hp -= npc.forca;
-                System.out.println(ConsoleColors.RED_BOLD + "\n--- ATAQUE DO HERÓI ---\n" + ConsoleColors.RESET);
-                System.out.println(ConsoleColors.RED + this.nome + " canaliza sua energia, preparando um ataque especial com " + armaPrincipal.getNome() + "!");
+                System.out.println("\n            ATAQUE DO HERÓI \n");
+                System.out.println(this.nome + " canaliza sua energia, preparando um ataque especial com " + armaPrincipal.getNome() + "!");
                 System.out.println("\n \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5 \n");
-                System.out.println(ConsoleColors.RED + this.nome + " desferiu um ataque especial em " + npc.nome + ", causando " + (this.forca + armaPrincipal.getAtaqueEspecial()) + " de dano devastador!");
+                System.out.println(this.nome + " desferiu um ataque especial em " + npc.nome + ", causando " + (this.forca + armaPrincipal.getAtaqueEspecial()) + " de dano devastador!");
 
                 scannerAtaque = new Scanner(System.in);
                 System.out.println("\nPressione Enter para receber ataque");
                 scannerAtaque.nextLine();
 
-                System.out.println(ConsoleColors.RED_BOLD + "\n--- ATAQUE DO INIMIGO ---\n" + ConsoleColors.RESET);
-                System.out.println(ConsoleColors.RED + npc.nome + " lutou bravamente e atacou " + this.nome + ", causando " + npc.forca + " de dano!" + ConsoleColors.RESET);
+                System.out.println("\n            ATAQUE DO INIMIGO \n");
+                System.out.println(npc.nome + " lutou bravamente e atacou " + this.nome + ", causando " + npc.forca + " de dano!");
                 System.out.println("\n \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8  \uD83E\uDDE8 \n");
 
                 break;
             case 3:
                 usarConsumivel(npc);
-                System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\nAtaque! " +npc.nome + " atacou " + this.nome + " causando " + npc.forca + " de dano!"+ ConsoleColors.RESET);
+                System.out.println("\nAtaque! " +npc.nome + " atacou " + this.nome + " causando " + npc.forca + " de dano!");
                 System.out.println("\n \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5 \n");
 
                 break;

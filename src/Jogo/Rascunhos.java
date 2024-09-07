@@ -84,7 +84,46 @@ public class Rascunhos {
         }
                     System.out.println(ConsoleColors.RED + "Cuidado! O inimigo ainda está vivo e pronto pra mais um ataque! " + ConsoleColors.RESET);
 
+// MEU MAIN
 
+        Jogo jogo = new Jogo();
+        Scanner input = new Scanner(System.in);
+        int escolha = 0;
+        Heroi heroi = null; // Inicializa o herói como null
 
+        do {
+            if (escolha == 1) { // Jogar novamente com a mesma personagem
+                if (heroi != null) { // Verifica se o herói já foi criado
+                    jogo.tresReinos(); // Configura o jogo (salas, etc.)
+                    jogo.jogar(); // Inicia o loop principal do jogo
+                } else {
+                    System.out.println("Você precisa criar um personagem primeiro!");
+                }
+            } else if (escolha == 2) { // Criar uma nova personagem
+                heroi = jogo.criarPersonagem();
+            } else if (escolha == 3) { // Sair do jogo
+                break; // Sai do loop
+            } else {
+                System.out.println("Opção inválida.");
+            }
 
+            // Verifica se o jogador deseja jogar novamente
+            if (heroi != null) {
+                System.out.println(">>> O jogo acabou! Você foi derrotado! ");
+                System.out.println("\nO que você deseja fazer?\n");
+                System.out.println("1. Jogar novamente com a mesma personagem");
+                System.out.println("2. Criar uma nova personagem");
+                System.out.println("3. Sair do jogo");
+                System.out.println(" >>> ");
+
+                escolha = input.nextInt();
+                input.nextLine(); // Limpa o buffer do Scanner
+            }
+
+        } while (true); // Continua o loop até o jogador escolher sair
+
+        System.out.println("Obrigado por jogar!");
+        input.close();
+    }
+}
 */
