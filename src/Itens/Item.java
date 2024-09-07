@@ -7,16 +7,16 @@ import java.util.ArrayList;
 public abstract class Item {
     public String nome;
     int precoOuro;
-    ArrayList<String> heroisValidos;
+    ArrayList<String> heroisPermitidos;
 
     public Item(String nome, int precoOuro) {
         this.nome = nome;
         this.precoOuro = precoOuro;
-        this.heroisValidos = new ArrayList<>();
+        this.heroisPermitidos = new ArrayList<>();
     }
 
     public void mostrarDetalhes() {
-        System.out.println("Nome: " + nome + " Preço: " + precoOuro + " Heróis Válidos: " + heroisValidos);
+        System.out.println("Item nome: " + this.nome + " | Preço: " + this.precoOuro + "moedas");
     }
 
     public String getNome() {
@@ -28,18 +28,18 @@ public abstract class Item {
     }
 
     public ArrayList<String> getHeroisValidos() {
-        return heroisValidos;
+        return heroisPermitidos;
     }
 
     public void lerListaHeroisValidos(){
         //Checa se o inventário está vazio
-        if (this.heroisValidos.isEmpty()){
+        if (this.heroisPermitidos.isEmpty()){
             System.out.println(ConsoleColors.RED_BOLD + "Lista vazia! " + ConsoleColors.RESET);
             return;
         }
         //Lista os itens da lista de heróis válidos
         int i = 1;
-        for(String item : this.heroisValidos){
+        for(String item : this.heroisPermitidos){
             System.out.println(ConsoleColors.BLUE + i +": " + item + ConsoleColors.RESET);
             i++;
         }

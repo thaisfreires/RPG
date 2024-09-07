@@ -4,6 +4,8 @@ import Entidades.Entidade;
 import Entidades.Heroi;
 import Jogo.ConsoleColors;
 
+import java.util.ArrayList;
+
 public class Pocao extends Consumivel {
     int cura;
     int maisForca;
@@ -17,15 +19,8 @@ public class Pocao extends Consumivel {
     @Override
     public void mostrarDetalhes() {
         super.mostrarDetalhes();
-        System.out.println("Cura: " + cura + ", Mais Força: " + maisForca);
+        System.out.println("Cura: " + this.cura + " | Mais Força: " + this.maisForca);
     }
-    /**
-     * Método para escolher e usar uma porção
-     */
-
-
-
-
 
     public int getCura() {
         return cura;

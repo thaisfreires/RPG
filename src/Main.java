@@ -1,49 +1,42 @@
 import Entidades.*;
 import Itens.Arma;
+import Itens.ConsumivelCombate;
+import Itens.Pocao;
+import Jogo.Jogo;
+
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
+        Jogo jogo=new Jogo();
+        Scanner input = new Scanner(System.in);
+        int escolha = 0;
 
-        Arma espada = new Arma("Espada",50,100,120);
-        Arma flecha = new Arma("Flecha",30,70,90);
-        Arma canhao= new Arma("Canhão",100,150,200);
+        do {
+            // Cria o herói
+            Heroi heroi = jogo.criarPersonagem();
 
+            // Inicia o Jogo
+            if (heroi != null) {
+                jogo.tresReinos(heroi);
+            }
 
-        Arqueiro arqueiro = new Arqueiro("Fulano",200,100,1,100, flecha);
-        Feiticeiro feiticeiro = new Feiticeiro("Neném",350,200,2,300, espada);
-        Cavaleiro cavaleiro = new Cavaleiro("Ciclano", 500,400,3,500, canhao);
+            // Verifica se o jogador deseja jogar novamente
+            System.out.println(">>> O jogo acabou! Você foi derrotado! ");
+            System.out.println("\nO que você deseja fazer?\n");
+            System.out.println("1. Jogar novamente com a mesma personagem");
+            System.out.println("2. Criar uma nova personagem");
+            System.out.println("3. Sair do jogo");
+            System.out.println(" >>> ");
 
-
-        NPC dragao = new NPC("DRAGÃO DROGOS",100,100,90);
-        NPC soldado = new NPC("SOLDADO RYAN",150,150,90);
-        NPC urso = new NPC("THE BEAR",200,200,100);
-
-        //Pocao vida25=new Pocao()
-
-        //Vendedor vendedor = new Vendedor();
-        //vendedor.imprimirLoja();
-
-/**
-        dragao.mostrarDetalhes();
-        cavaleiro.mostrarDetalhes();
-        cavaleiro.atacar(dragao);
-        dragao.mostrarDetalhes();
-        cavaleiro.detalhesHeroi();
+            escolha = input.nextInt();
 
 
-        arqueiro.detalhesHeroi();
-        soldado.mostrarDetalhes();
-        arqueiro.atacar(soldado);
-        arqueiro.mostrarDetalhes();
-        soldado.mostrarDetalhes();
+        } while (escolha != 3); // Continua o loop até o jogador escolher sair
 
-**/
-        cavaleiro.detalhesHeroi();
-        cavaleiro.usarPocao();
-        cavaleiro.detalhesHeroi();
-
-
+        System.out.println("Obrigado por jogar!");
     }
 }

@@ -1,12 +1,13 @@
 package Entidades;
 
-import Itens.Arma;
-import Itens.Item;
-import Itens.Pocao;
+import Itens.*;
 import Jogo.ConsoleColors;
+import Itens.Pocao;
+import Itens.ConsumivelCombate;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
 
 public abstract class Heroi extends Entidade {
     int nivel;
@@ -14,8 +15,8 @@ public abstract class Heroi extends Entidade {
     Arma armaPrincipal;
     ArrayList<Item> inventario;
 
-    public Heroi(String nome, int hp, int forca, int nivel, int ouro, Arma armaPrincipal) {
-        super(nome, hp, forca);
+    public Heroi(String nome, int hp, int maxHp, int forca, int nivel, int ouro, Arma armaPrincipal) {
+        super(nome, hp, maxHp, forca);
         this.nivel = nivel;
         this.ouro = ouro;
         this.armaPrincipal = armaPrincipal;
@@ -33,178 +34,175 @@ public abstract class Heroi extends Entidade {
      * Método para acessar os detalhes dos heróis
      */
     public void detalhesHeroi() {
-        System.out.println("-------------------------------------------------");
-        System.out.println("Herói " + this.nome);
-        System.out.println("Vidas " + this.hp);
-        System.out.println("Força " + this.forca);
-        System.out.println("Nível " + this.nivel);
-        System.out.println("Ouro " + this.ouro);
-        System.out.println("Arma " + armaPrincipal.getNome());
-        System.out.println("-------------------------------------------------");
+        super.mostrarDetalhes();
+        System.out.println("Nível: " + this.nivel + " | Ouro: " + this.ouro + " moedas");
+        System.out.println("Arma Principal: " + armaPrincipal.getNome() + " | Ataque da arma: " + armaPrincipal.getAtaque() + " | Ataque Especial da arma: " + armaPrincipal.getAtaqueEspecial());
+        System.out.println();
     }
 
     /**
-     * Método para calcular um dano por porcentagem
-     *
-     * @param percentual
+     * Método que adiciona um item no inventário do herói
      */
-    public void dano(double percentual) {
-        int quantidade = (int) (this.forca * percentual / 100);
-        this.forca -= quantidade;
+    public void adicionarItem(Item item){
+        this.inventario.add(item);
     }
-
     /**
-     * Método de escolha de tipo de Ataque.
+     * Método para remover um item do inventário do herói
      */
-    public void ataque(NPC NPC) {
-        Scanner input = new Scanner(System.in);
-        //Enviando opções ao utilizador
-        System.out.println(ConsoleColors.BLUE + " --- Escolha um tipo de ataque --- " + ConsoleColors.RESET);
-        System.out.println(ConsoleColors.BLUE + "1. Ataque Normal " + ConsoleColors.RESET);
-        System.out.println(ConsoleColors.BLUE + "2. Ataque Especial " + ConsoleColors.RESET);
-        System.out.println(ConsoleColors.BLUE + "3. Usar Consumível" + ConsoleColors.RESET);
-        //Recebendo a opção escolhida pelo utilizador
-        int opcao = input.nextInt();
-
-        switch (opcao) {
-            case 1:
-                ataqueNormal(NPC);
-                break;
-            case 2:
-                ataqueEspecial(NPC);
-                break;
-            case 3:
-                usarConsumivel();
-                break;
-            default:
-                System.out.println(ConsoleColors.YELLOW_BACKGROUND + "Opção Inválida" + ConsoleColors.RESET);
-
-        }
+    public void removerItem(Item item){
+        this.inventario.remove(item);
     }
-
-    /**
-     * Método de ataque normal em que diminui a força/vida do inimigo e do heroi + o ataque da Arma.
-     */
-    public void ataqueNormal(NPC npc) {
-        //Ataque ao inimigo
-        npc.hp -= this.forca + armaPrincipal.getAtaque();
-        //Ataque ao herói
-        this.hp -= npc.forca;
-    }
-
-    /**
-     * Método especial de ataque em que diminui vida + força + força especial da Arma.
-     */
-    public void ataqueEspecial(NPC npc) {
-        //Ataque ao inimigo
-        npc.hp -= this.forca + armaPrincipal.getAtaqueEspecial();
-        //Ataque ao herói
-        this.hp -= npc.forca;
-    }
-
-    /**
-     * Método que lê os itens do Inventário de Consumíveis.
-     */
-    public void lerInventarioConsumiveis() {
-        //Checa se o inventário está vazio
-        if (this.inventario.isEmpty()) {
-            System.out.println(ConsoleColors.RED_BOLD + "Inventário vazio! " + ConsoleColors.RESET);
-            return;
-        }
-        //Lista os itens do Inventário de Consumíveis
-        int i = 1;
-        for (Item item : this.inventario) {
-            System.out.println(ConsoleColors.BLUE + i + ": " + item.nome + ConsoleColors.RESET);
-            i++;
-        }
-
-    }
-
     /**
      * Método para usar consumível com o input do utilizador.
      */
-    public void usarConsumivel() {
-        lerInventarioConsumiveis();
-        System.out.println(ConsoleColors.BLUE + "Escolha um item para consumir: " + ConsoleColors.RESET);
-        //Recebe a escolha do utilizador
-
-        Scanner input = new Scanner(System.in);
-        int itemEscolhido = input.nextInt();
-
-        Item item = this.inventario.get(itemEscolhido - 1);
-        // ADICIONAR EFEITO DO CONSUMIVEL
-
-        //Remove o item esolhido do inventário Consumíveis
-        System.out.println(ConsoleColors.BLUE + "Item Usado: " + item.nome + ConsoleColors.RESET);
-        this.inventario.remove(item);
-    }
-
-    /**
-     * Método para escolher e usar uma porção
-     */
-    public void usarPocao() {
-        //Lista as Poções disponíveis
-        System.out.println(ConsoleColors.PURPLE + " --- Escolha uma poção --- " + ConsoleColors.RESET);
+    public void usarConsumivel (NPC npc){
+        //Lista os itens do Inventário de Consumíveis
         int i = 1;
         for (Item item : this.inventario) {
-            if (item instanceof Pocao) {
-                System.out.println(ConsoleColors.PURPLE + i + ": " + item.nome + ConsoleColors.RESET);
+            if (item instanceof ConsumivelCombate || item instanceof Pocao) {
+                System.out.println(ConsoleColors.BLUE + i + ": " + item.nome + ConsoleColors.RESET);
                 i++;
             }
         }
+        System.out.println(ConsoleColors.BLUE + "Escolha um item para consumir >>>>  " + ConsoleColors.RESET);
         //Recebe a escolha do utilizador
+
         Scanner input = new Scanner(System.in);
         int itemEscolhido = input.nextInt();
 
-        //Busca os atributos de Poção
-        Item item = this.inventario.get(itemEscolhido - 1);
-        if (item instanceof Pocao) {
-            Pocao itemPocao = (Pocao) item;
+        if (itemEscolhido > 0 && itemEscolhido <= this.inventario.size()) {
+            Item item = this.inventario.get(itemEscolhido - 1);
 
-            //Usando a porção para aumentar vida/força
-            this.hp += itemPocao.getCura();
-            this.forca += itemPocao.getMaisForca();
-
-            //Remove o item esolhido do inventário Consumíveis
-            this.inventario.remove(itemPocao);
-            System.out.println(ConsoleColors.PURPLE + "Item Escolhido: " + itemPocao.nome + ConsoleColors.RESET);
+            if (item instanceof ConsumivelCombate) {
+                usarConsumivelCombate((ConsumivelCombate) item, npc);
+            } else if (item instanceof Pocao) {
+                usarPocao((Pocao) item);
+            } else {
+                System.out.println(ConsoleColors.YELLOW_BACKGROUND + "Item inválido." + ConsoleColors.RESET);
+            }
+        } else if (itemEscolhido == 0) {
+            System.out.println(" >>> Saindo do inventário ");
         } else {
-            System.out.println(ConsoleColors.YELLOW_BACKGROUND + "Opção Inválida" + ConsoleColors.RESET);
+            System.out.println("⚠ Opção Inválida ⚠");        }
+        if (this.inventario.isEmpty()){
+            System.out.println(ConsoleColors.RED + " **** INVENTÁRIO VAZIO " + ConsoleColors.RESET);
+        }
+    }
+    /**
+     * Método que escolhe um consumível e o remove do inventário
+     */
+    public void usarConsumivelCombate (ConsumivelCombate consumivelCombate, NPC npc){
+        npc.hp -= consumivelCombate.getAtaqueInstantaneo(); //Aplica o dano ao NPC
+        System.out.println();
+        System.out.println(ConsoleColors.BLUE + "Item Usado: " + consumivelCombate.nome + " causando " + consumivelCombate.getAtaqueInstantaneo() + " de dano!" + ConsoleColors.RESET);
+        this.inventario.remove(consumivelCombate); //Remove o item do inventário
+    }
+
+    /**
+     * Método para usar uma poção
+     */
+    public void usarPocao (Pocao pocao){
+        this.forca += pocao.getMaisForca(); //Aumenta força
+        //Checa o máximo de vida
+        if (this.hp < this.maxHp){
+            this.hp += pocao.getCura();//Aumenta vida
+        }
+        if (this.hp > this.maxHp){
+            this.hp = this.maxHp;
+            System.out.println(ConsoleColors.PURPLE + "Poção ultrapassa o máximo de vida. Deseja adicionar somente até o máximo?" + ConsoleColors.RESET);
+        }
+
+        System.out.println(ConsoleColors.PURPLE + "ITEM USADO >>> " + pocao.nome  + ConsoleColors.RESET);
+        this.inventario.remove(pocao); //Remove o item do inventário
+    }
+    /**
+     * Método para escolher pocão para se curar
+     */
+    public void curar() {
+        if (this.inventario.isEmpty()){
+            System.out.println(ConsoleColors.RED + " **** INVENTÁRIO VAZIO " + ConsoleColors.RESET);
             return;
         }
+        //Lista as poções do Inventário de Consumíveis
+        int i = 1;
+        for (Item item : this.inventario) {
+            if (item instanceof Pocao) {
+                System.out.println(ConsoleColors.PURPLE + i + ". " + item.nome + ConsoleColors.RESET);
+                i++;
+            }
+        }
+        System.out.println(ConsoleColors.PURPLE + "0: Cancelar" + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.PURPLE_BOLD + "POÇÃO ESCOLHIDA >>> " + ConsoleColors.RESET);
+        //Recebe a escolha do utilizador
+        Scanner input = new Scanner(System.in);
+        int itemEscolhido = input.nextInt();
+        //Opção para não usar poção
+        if (itemEscolhido == 0) {
+            System.out.println(ConsoleColors.PURPLE + "Ação cancelada." + ConsoleColors.RESET);
+            return;
+        }
+        if (itemEscolhido > 0 && itemEscolhido <= this.inventario.size()) {
+            Item item = this.inventario.get(itemEscolhido - 1);
+            if (item instanceof Pocao) {
+                usarPocao((Pocao) item);
+            }else {
+                System.out.println("⚠ Opção Inválida ⚠");
+                return;
+            }
+        }else {
+            System.out.println("⚠ Opção Inválida ⚠");
+            return;
+        }
+    }
+
+    /**
+     * Método para subir o nível quando o NPC for derrotado
+     */
+    public void subirNivel () {
+        this.maxHp += 10; // Aumenta o maxHp ao subir de nível
+        this.hp += 10;
+        if (this.hp > this.maxHp) {
+            this.hp = this.maxHp; // Limita a vida ao maxHp
+        }
+        this.nivel++;
+        System.out.println(ConsoleColors.GREEN_BOLD + "\n ***** PARABÉNS! Você alcançou o NÍVEL " + (this.nivel) + " ***** \n");
     }
 
     public ArrayList<Item> getInventario () {
         return inventario;
     }
 
-    public int getNivel() {
+    public int getNivel () {
         return nivel;
     }
 
-    public int getOuro() {
+    public int getOuro () {
         return ouro;
     }
 
-    public void setNivel(int nivel) {
+    public void setNivel ( int nivel){
         this.nivel = nivel;
     }
 
-    public void setOuro(int ouro) {
+    public void setOuro ( int ouro){
         this.ouro = ouro;
     }
 
-    public void setInventario(ArrayList<Item> inventario) {
+    public void setInventario (ArrayList <Item> inventario) {
         this.inventario = inventario;
     }
 
-    public Arma getArmaPrincipal() {
+    public Arma getArmaPrincipal () {
         return armaPrincipal;
     }
 
-    public void setArmaPrincipal(Arma armaPrincipal) {
+    public void setArmaPrincipal (Arma armaPrincipal){
         this.armaPrincipal = armaPrincipal;
+
     }
+
+
 }
+
 
 

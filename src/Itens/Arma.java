@@ -1,5 +1,7 @@
 package Itens;
 
+import java.util.ArrayList;
+
 public class Arma extends Item {
     String nome;
     int ataque;
@@ -15,7 +17,7 @@ public class Arma extends Item {
     @Override
     public void mostrarDetalhes() {
         super.mostrarDetalhes();
-        System.out.println("Ataque: " + ataque + ", Ataque Especial: " + ataqueEspecial);
+        System.out.println(" Nome da Arma: " + this.nome + " | Ataque: " + this.ataque + " | Ataque Especial: " + this.ataqueEspecial);
     }
 
     public String getNome() {
@@ -29,5 +31,6 @@ public class Arma extends Item {
     public int getAtaqueEspecial() {
         return ataqueEspecial;
     }
+
 }
 

@@ -1,14 +1,13 @@
 package Entidades;
 
 import Itens.Arma;
-import Itens.Item;
 import Jogo.ConsoleColors;
 
 import java.util.Scanner;
 
 public class Cavaleiro extends Heroi{
-    public Cavaleiro(String nome, int hp, int forca, int nivel, int ouro, Arma armaPrincipal) {
-        super(nome, hp, forca, nivel, ouro, armaPrincipal);
+    public Cavaleiro(String nome, int hp, int maxHp, int forca, int nivel, int ouro, Arma armaPrincipal) {
+        super(nome, hp, maxHp, forca, nivel, ouro, armaPrincipal);
     }
 
     /**
@@ -17,54 +16,111 @@ public class Cavaleiro extends Heroi{
      */
     @Override
     public void atacar(NPC npc) {
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+        System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+
         //Força do inimigo diminuída em 20%
+        System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\n " + npc.nome +" tem força reduzida em 20% " + ConsoleColors.RESET);
         npc.diminuirForcaInicial(0.20);
-        //Ataque do inimigo e subtração da vida do cavaleiro
-        this.hp -= npc.forca;
-        //Ataque do CavaleirO ao inimigo
-        npc.hp -=  this.forca + armaPrincipal.getAtaque();
-
-        System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\nO " + npc.nome +" tem força reduzida em 20% " + ConsoleColors.RESET);
-        System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\nAtaque! O " + npc.nome +" atacou o Cavaleiro "+this.nome+" !!! " + ConsoleColors.RESET);
-        System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\nAtaque! O Cavaleiro "+this.nome+" atacou o " + npc.nome +" !!! " + ConsoleColors.RESET);
-        //Verifica se ainda existe vida
-        if (npc.hp <= 0){
-            System.out.println(ConsoleColors.GREEN_BOLD + npc.nome + " DERROTADO! ");
-            System.out.println(ConsoleColors.GREEN_BOLD + this.nome + "é o VENCEDOR!!!!");
-            this.hp += 10;
-            this.forca += 1;
-            System.out.println(ConsoleColors.GREEN_BOLD + " Você alcançou o NÍVEL " + (this.nivel += 1) + "!");
-            npc.getInventarioNPC();
+        System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\n " + npc.nome +" preparando ataque... " + ConsoleColors.RESET);
 
 
-            //Lista os itens do Inventário de NPC
-            int i = 1;
-            for(Item item : npc.inventarioNPC){
-                System.out.println(ConsoleColors.BLUE + i +": " + item.nome + ConsoleColors.RESET);
-                System.out.println(ConsoleColors.BLUE + "Deseja aceitar esse item? " + item.nome + ConsoleColors.RESET);
-                System.out.println(ConsoleColors.BLUE + "1. SIM " + item.nome + ConsoleColors.RESET);
-                System.out.println(ConsoleColors.BLUE + "2. NÃO " + item.nome + ConsoleColors.RESET);
+        //Inimigo ataca primeiro
+        int danoInimigo = npc.getForca();
+        this.receberDano(danoInimigo);
+        System.out.println(ConsoleColors.RED_BOLD_BRIGHT + npc.getNome() + " atacou " + this.nome + " causando " + danoInimigo + " de dano!"+ ConsoleColors.RESET);
 
-                Scanner input = new Scanner(System.in);
-                int opcao=input.nextInt();
+        // Escolha do tipo de ataque do Cavaleiro
+        Scanner input = new Scanner(System.in);
+        //Enviando opções ao utilizador
+        System.out.println("\n --- ESCOLHA O TIPO DE ATAQUE --- ");
+        System.out.println("1. Ataque Normal ");
+        System.out.println("2. Ataque Especial ");
+        System.out.println("3. Usar Consumível de Combate ou uma Poção de Vida/Força do seu Inventário\n");
+        //Recebendo a opção escolhida pelo utilizador
+        int opcao = input.nextInt();
+        System.out.println(">>> " + opcao);
 
-                //Oferece opções para o utilizador adicionar ou não os itens do NPC no inventário
-                switch(opcao){
-                    case 1:
-                        inventario.add(item);
-                        System.out.println(ConsoleColors.BLUE + "item adicionado " + item.nome + ConsoleColors.RESET);
-                    case 2:
-                        System.out.println(ConsoleColors.BLUE + "item descartado " + item.nome + ConsoleColors.RESET);
-                }
+        switch (opcao) {
+            case 1:
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
 
-                i++;
-            }
-        }
-        //Verifica se o herói está vivo
-        if (this.hp <=0){
-            System.out.println(ConsoleColors.BLUE + this.nome + "perdeu o Jogo! " + ConsoleColors.RESET);
-            System.out.println(ConsoleColors.BLUE + " Boa sorte na próxima! " + ConsoleColors.RESET);
+                // Ataque Normal do herói
+                npc.hp -= this.forca + armaPrincipal.getAtaque();
+                System.out.println(ConsoleColors.GREEN_BOLD + "\n--- ATAQUE DO HERÓI ---\n" + ConsoleColors.RESET);
+                System.out.println(this.nome + " segura o " + armaPrincipal.getNome() + " firmemente, preparando um golpe diagonal...");
+                System.out.println("\n⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F\n");
+                System.out.println(this.nome + " desferiu um golpe diagonal em " + npc.nome + ", causando " + (this.forca + armaPrincipal.getAtaque()) + " de dano!");
 
+                Scanner scannerAtaque = new Scanner(System.in);
+                System.out.println("\nPressione Enter para receber ataque");
+                scannerAtaque.nextLine();
+
+                System.out.println(ConsoleColors.RED_BOLD + "\n--- ATAQUE DO INIMIGO ---\n" + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.RED_BOLD + "O Inimigo contra-ataca com uma fúria impiedosa!" + ConsoleColors.RESET);
+                System.out.println("\n⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡ \n ");
+                System.out.println(npc.nome + " tenta se esquivar, mas é atingido e causa " + npc.forca + " de dano em retorno!");
+
+
+                break;
+            case 2:
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+
+                // Ataque Especial
+                npc.hp -= this.forca + armaPrincipal.getAtaqueEspecial();
+                System.out.println(ConsoleColors.GREEN_BOLD + "\n--- ATAQUE DO HERÓI ---\n" + ConsoleColors.RESET);
+                System.out.println(this.nome + " dá um salto poderoso no ar, pronto para desferir um ataque devastador com sua " + armaPrincipal.getNome() + "...");
+                System.out.println("\n⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F\n");
+                System.out.println(this.nome + " desce com força, golpeando " + npc.nome + " com um ataque especial, causando " + (this.forca + armaPrincipal.getAtaqueEspecial()) + " de dano!");
+
+                System.out.println("Pressione Enter para receber ataque");
+                input.nextLine();
+
+                System.out.println(ConsoleColors.RED_BOLD + "\n--- ATAQUE DO INIMIGO ---\n" + ConsoleColors.RESET);
+                System.out.println(npc.nome + " mal consegue reagir, sofrendo " + npc.forca + " de dano ao tentar contra-atacar!\n");
+                System.out.println("\n⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  \n");
+                break;
+            case 3:
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+                System.out.println(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+
+                usarConsumivel(npc);
+                System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\nAtaque! " +npc.nome + " atacou " + this.nome + " causando " + danoInimigo + " de dano!"+ ConsoleColors.RESET);
+                System.out.println("\n⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  ⚡  \n");
+
+                break;
+            default:
+                System.out.println("⚠ Opção Inválida ⚠");
         }
 
     }

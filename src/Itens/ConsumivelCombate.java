@@ -1,5 +1,7 @@
 package Itens;
 
+import java.util.ArrayList;
+
 public class ConsumivelCombate extends Consumivel {
     int ataqueInstantaneo;
 
@@ -11,7 +13,7 @@ public class ConsumivelCombate extends Consumivel {
     @Override
     public void mostrarDetalhes() {
         super.mostrarDetalhes();
-        System.out.println("Ataque Instantaneo: " + ataqueInstantaneo);
+        System.out.println("Ataque Instantaneo: " + this.ataqueInstantaneo);
     }
 
     public int getAtaqueInstantaneo() {

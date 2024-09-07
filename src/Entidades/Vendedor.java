@@ -5,6 +5,7 @@ import Jogo.ConsoleColors;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Vendedor {
@@ -18,71 +19,80 @@ public class Vendedor {
      * Método que imprime 10 itens aleatórios da loja.
      */
     public void imprimirLoja() {
-        System.out.println(ConsoleColors.WHITE_BOLD_BRIGHT + "Bem Vindo á esta loja! Aqui você encontrará vários itens que precisará" + ConsoleColors.RESET);
-        System.out.println(ConsoleColors.WHITE_BOLD_BRIGHT + "Aqui estão os itens disponíveis: " + ConsoleColors.RESET);
+        System.out.println();
+        System.out.println(ConsoleColors.YELLOW + "\n        -- ITENS DISPONÍVEIS -- \n" + ConsoleColors.RESET);
 
-        //Escolhendo itens aleatorios
+        //Embaralhando os item da loja
         Collections.shuffle(loja);
 
-        //Imprimir máximo 10 itens
-        int i = 1;
-        for (Item itemLoja : loja) {
-            while (i < 10){
-                System.out.println(ConsoleColors.BLUE_BACKGROUND + i + ". NOME: "+ itemLoja.nome + "PREÇO: " + itemLoja.getPrecoOuro() + "OURO" + ConsoleColors.RESET);
+        //Definindo máximo de 10 itens
+        int i = 0;
+        while (i >= 0 && i <= 10){
+                Item itemLoja = loja.get(i);
+                System.out.println(ConsoleColors.YELLOW + (i + 1) + ". Item: " + itemLoja.nome + " | Preço: " + itemLoja.getPrecoOuro() + " moedas de ouro" + ConsoleColors.RESET);
                 i++;
-            }
         }
     }
 
     /**
      * Método que checa se a compra pode ser efetuada e acrescenta no inventário do herói
-     * @param heroi
+     * @param heroi criado
      */
     public void vender(Heroi heroi) {
 
-        //Checa se existe itens na loja
-        if (this.loja.isEmpty()) {
-            System.out.println(ConsoleColors.RED_BOLD + "Não existe itens nessa loja. " + ConsoleColors.RESET);
-            return;
-        }
-
         //Lista os itens disponíveis na loja
-        imprimirLoja();
+        this.imprimirLoja();
 
-        //Recebe input sobre escolha do item
         Scanner input = new Scanner(System.in);
-        System.out.println(ConsoleColors.BLUE + " - Digite o número do item escolhido ou digite 0 para sair da loja: ");
-        int escolha = input.nextInt();
+        int itemEscolhido = input.nextInt();
+        System.out.println(ConsoleColors.YELLOW + "\n - Digite o número do item escolhido ou digite 0 para sair da loja >>> " + itemEscolhido + ConsoleColors.RESET);
 
-        //Pegar item pelo index
-        Item itemLoja = this.loja.get(escolha - 1);
-        do {
+        // Checa se o item é válido
+        if (itemEscolhido > 0 && itemEscolhido <= this.loja.size()) {
+            // Pegar item pelo index
+            Item itemLoja = this.loja.get(itemEscolhido - 1);
+
             if (heroi.ouro >= itemLoja.getPrecoOuro()) {
                 //Checar se é uma Poção
                 if (itemLoja instanceof Pocao) {
-                    heroi.getInventario().add((Pocao) itemLoja);
                     System.out.println(ConsoleColors.PURPLE + "O item selecionado para compra é uma POÇÃO " + ConsoleColors.RESET);
                 }
                 //Checar se é uma Arma
                 if (itemLoja instanceof Arma) {
-                    System.out.println(ConsoleColors.YELLOW_BOLD + "O item selecionado para compra é uma ARMA. Sua ARMA será substituída " + ConsoleColors.RESET);
+                    System.out.println(ConsoleColors.BLUE + "O item selecionado para compra é uma ARMA. Sua ARMA será substituída " + ConsoleColors.RESET);
+                    // Remove a arma atual do herói
+                    if (heroi.getArmaPrincipal() != null) {
+                        heroi.getInventario().remove(heroi.getArmaPrincipal());
+                    }
                     heroi.setArmaPrincipal((Arma) itemLoja);
                 }
                 //Checa se é Consumível
                 if (itemLoja instanceof ConsumivelCombate) {
-                    System.out.println(ConsoleColors.GREEN_BOLD + "O item selecionado para compra é um CONSUMÍVEL DE COMBATE " + ConsoleColors.RESET);
-                    heroi.getInventario().add((ConsumivelCombate) itemLoja);
+                    System.out.println(ConsoleColors.GREEN + "O item selecionado para compra é um CONSUMÍVEL DE COMBATE " + ConsoleColors.RESET);
                 }
                 //Subtrai o ouro do herói para a venda
                 heroi.setOuro(heroi.ouro - itemLoja.getPrecoOuro());
+                // Adiciona o item ao inventário
+                heroi.getInventario().add(itemLoja);
                 //Confirmação ao utilizador
-                System.out.println(ConsoleColors.BLUE + "COMPRA EFETUADA COM SUCESSO! " + ConsoleColors.RESET);
-                System.out.println(ConsoleColors.BLUE + "Você adquiriu: " + itemLoja.nome + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.GREEN_BOLD + " -- COMPRA EFETUADA COM SUCESSO! -- " + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.YELLOW + "\nVocê adquiriu: " + itemLoja.nome);
+                System.out.println("Preço: " + itemLoja.getPrecoOuro());
+                System.out.println("Ouro restante: " + heroi.ouro + " moedas de ouro\n" + ConsoleColors.RESET);
             } else {
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Ouro Insuficiente para compra" + ConsoleColors.RESET);
+                return;
             }
+        } else if (itemEscolhido == 0) {
+            System.out.println(ConsoleColors.WHITE + ">>> Saindo da loja." + ConsoleColors.RESET);
+        } else {
+            System.out.println(ConsoleColors.RED + ">>> Opção Inválida" + ConsoleColors.RESET);
+        }
 
-        } while (escolha != 0);
+    }
+
+    public void adicionarItemLoja(Item item){
+        loja.add(item);
     }
 
 
