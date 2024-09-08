@@ -15,15 +15,23 @@ public class Sala {
     protected int id;
     protected String nome;
     protected ArrayList<Integer> salasDisponiveis;
+    private ArrayList<Sala> salas;
+
 
     public Sala(int id, String nome) {
         this.id = id;
         this.nome = nome;
         this.salasDisponiveis = new ArrayList<>();
+        this.salas = new ArrayList<>();
+
     }
-    public void conectar(int idSala){
-        salasDisponiveis.add(idSala);
+    public void conectar(int id){
+        if (!salasDisponiveis.contains(getId())) {  // Evitar duplicatas
+            salasDisponiveis.add(getId());  // Adiciona a sala à lista de conexões
+            System.out.println("Sala " + this.id + " conectada à sala " + salas);
+        }
     }
+
 
     public ArrayList<Integer> getSalasDisponiveis() {
         return salasDisponiveis;
@@ -155,8 +163,6 @@ public class Sala {
         // Método que permite o herói usar poções do seu inventário antes de seguir
 
         saidaSala(heroi);
-        pausas();
-        System.out.println(ConsoleColors.PURPLE + "\nAs montanhas, antes intransponíveis, agora abrem caminho para o próximo destino da sua jornada." + ConsoleColors.RESET);
         System.out.println();
 
 
@@ -189,9 +195,7 @@ public class Sala {
         System.out.println(ConsoleColors.PURPLE + "Com Vhagar derrotado, as chamas que cobriam as montanhas começam a apagar, revelando um caminho que leva adiante." + ConsoleColors.RESET);
         // Método que permite o herói usar poções do seu inventário antes de seguir
         saidaSala(heroi);
-        pausas();
         System.out.println();
-        System.out.println(ConsoleColors.GREEN_BOLD + "\nA jornada continua, e a vitória sobre o grande dragão Vhagar fortalece sua coragem como nunca antes."+ ConsoleColors.RESET);
         System.out.println();
 
     }
@@ -269,47 +273,54 @@ public class Sala {
      * @param heroi
      * @param npc checa derrota do npc
      */
-    private void combate(Heroi heroi, NPC npc) {
-        //Definir ataque enquanto as entidades estiverem vida
-        while (!heroi.estaMorto() && !npc.estaMorto()) {
+    public void combate(Heroi heroi, NPC npc) throws FileNotFoundException {
+        //Definir ataque enquanto o NPC estiver vivo
+        while (!npc.estaMorto()) { // Continua o loop enquanto o NPC estiver vivo
 
             heroi.atacar(npc);
 
             if (npc.estaMorto()) {
-                System.out.println(ConsoleColors.GREEN_BOLD + npc.getNome() + " \nfoi DERROTADO \n");
-                System.out.println(ConsoleColors.GREEN_BOLD + "Você VENCEU o combate!");
+                System.out.println(ConsoleColors.GREEN_BOLD + "\n======================================================================\n" + ConsoleColors.RESET);
+
+                System.out.println(ConsoleColors.GREEN_BOLD + npc.getNome() + " foi DERROTADO e você venceu o combate! \n" + ConsoleColors.RESET);
 
                 //Sobe o nível e ajusta vida do herói
                 heroi.subirNivel();
-
                 // Aumenta a força do herói
                 heroi.setForca(heroi.getForca() + 1);
+                System.out.println(ConsoleColors.GREEN_BOLD +"+ 1 Força" + ConsoleColors.RESET);
 
+                System.out.println(ConsoleColors.GREEN_BOLD +"+ " + npc.getOuro() + " ouro" + ConsoleColors.RESET);
                 // Transfere o ouro do NPC para o herói
                 heroi.setOuro(heroi.getOuro() + npc.getOuro());
-                heroi.mostrarDetalhes();
-                break; //Encerra o combate se o npc morrer
+                System.out.println();
+                System.out.println(ConsoleColors.GREEN_BOLD + "\n*** Você alcançou o NÍVEL " + (heroi.getNivel()) + " \n");
+
+                heroi.detalhesHeroi();
+                System.out.println(ConsoleColors.GREEN_BOLD + "\n======================================================================\n" + ConsoleColors.RESET);
+
+                System.out.println();
+                break; // Sai do loop
             }
+
+            // Verifica se o herói morreu, mesmo que o NPC ainda esteja vivo
             if (heroi.estaMorto()) {
+                imprimirFicheiro("src/Arquivos/GAMEOVER");
                 System.out.println(ConsoleColors.RED_BOLD + heroi.getNome() + " FOI DERROTADO! GAME OVER." + ConsoleColors.RESET);
-                break; // Encerra o combate se o herói morrer
+                break; // Sai do loop
             }
         }
+
     }
 
-    private void saidaSala(Heroi heroi){
-        // Perguntar se o herói deseja usar poções
-        System.out.println(ConsoleColors.PURPLE + "\nDeseja usar uma poção para se recuperar? (1 - Sim, 0 - Não)" + ConsoleColors.RESET);
-        Scanner input = new Scanner(System.in);
-        int usarPocao = input.nextInt();
+    public void saidaSala(Heroi heroi){
 
-        if (usarPocao == 1) {
-            heroi.curar(); // Chama o método curar() para o herói usar uma poção
-        }
         System.out.println(ConsoleColors.CYAN_BOLD + "              ****************************************************" + ConsoleColors.RESET);
         System.out.println(ConsoleColors.CYAN_BOLD + "              *    " + ConsoleColors.GREEN_BOLD + "Você está pronto para continuar sua jornada!" + ConsoleColors.CYAN_BOLD + "       *" + ConsoleColors.RESET);
         System.out.println(ConsoleColors.CYAN_BOLD + "              ****************************************************" + ConsoleColors.RESET);
+        System.out.println();
     }
+
 
     public int getId() {
         return id;

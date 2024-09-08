@@ -125,5 +125,95 @@ public class Rascunhos {
         System.out.println("Obrigado por jogar!");
         input.close();
     }
+            gerenciarSalas(heroi, sala0, sala1, sala2, sala3, sala4, sala5);
+
+          do{
+                //Salas nível 1
+                if (heroi.getNivel() == 1) {
+                    sala0 .conectar(sala1); // Vendedor para Eldoria
+                    sala0.conectar(sala2); // Vendedor para Thaloria
+                    sala0.conectar(sala3); // Vendedor para Ravenfell
+                }
+
+                //Salas nível 2
+                if (heroi.getNivel() == 2) {
+                    sala1.conectar(sala3); // Eldoria para Ravenfell
+                    sala1.conectar(sala2); // Eldoria para Thaloria
+
+                    sala2.conectar(sala3); // Thaloria para Ravenfell
+                    sala2.conectar(sala0); // Thaloria para Vendedor
+
+                    sala3.conectar(sala5); // Ravenfell para Sala misteriosa
+                    sala3.conectar(sala0); // Ravenfell para Vendedor
+                    sala3.conectar(sala2); // Ravenfell para Thaloria
+                }
+
+                //Salas nível 3
+                if (heroi.getNivel() == 3) {
+                    sala0.conectar(sala4); // Vendedor para Fonte da Harmonia
+                    sala0.conectar(sala5); // Vendedor para Sala Misteriosa
+
+                    sala1.conectar(sala4); // Eldoria para Fonte da Harmonia
+                    sala1.conectar(sala5); // Eldoria para Sala Misteriosa
+
+                    sala2.conectar(sala4); // Thaloria para Fonte da Harmonia
+                    sala2.conectar(sala5); // Thaloria para Sala Misteriosa
+
+                    sala3.conectar(sala4); // Ravenfell para Fonte da Harmonia
+                    sala3.conectar(sala5); // Ravenfell para Sala Misteriosa
+
+                    sala5.conectar(sala4); // Sala Misteriosa para Fonte da Harmonia
+                }
+            }while (heroi.getNivel() <= 3);
+
+
+
+            public void gerenciarSalas(Heroi heroi) {
+        int nivel = heroi.getNivel();
+
+        do {
+            switch (nivel) {
+                case 1:
+                    salas.get(0).conectar(salas.get(1)); // Conectar Vendedor para Eldoria
+                    salas.get(0).conectar(salas.get(2)); // Conectar Vendedor para Thaloria
+                    salas.get(0).conectar(salas.get(3)); // Conectar Vendedor para Ravenfell
+                    break;
+
+                case 2:
+                    salas.get(1).conectar(salas.get(3)); // Eldoria para Ravenfell
+                    salas.get(1).conectar(salas.get(2)); // Eldoria para Thaloria
+
+                    salas.get(2).conectar(salas.get(3)); // Thaloria para Ravenfell
+                    salas.get(2).conectar(salas.get(0)); // Thaloria para Vendedor
+
+                    salas.get(3).conectar(salas.get(5)); // Ravenfell para Sala Misteriosa
+                    salas.get(3).conectar(salas.get(0)); // Ravenfell para Vendedor
+                    break;
+
+                case 3:
+                    salas.get(0).conectar(salas.get(4)); // Vendedor para Fonte da Harmonia
+                    salas.get(0).conectar(salas.get(5)); // Vendedor para Sala Misteriosa
+
+                    salas.get(1).conectar(salas.get(4)); // Eldoria para Fonte da Harmonia
+                    salas.get(1).conectar(salas.get(5)); // Eldoria para Sala Misteriosa
+
+                    salas.get(3).conectar(salas.get(4)); // Ravenfell para Fonte da Harmonia
+                    salas.get(3).conectar(salas.get(5)); // Ravenfell para Sala Misteriosa
+                    break;
+
+                default:
+                    System.out.println("Nenhuma conexão disponível para o nível do herói.");
+                    break;
+            }
+
+            // Aqui podemos sair do loop após definir as conexões
+            nivel = 0; // Para sair do loop (simulação)
+        } while (nivel > 0);
+    }
+
+
+
+    }
+
 }
 */

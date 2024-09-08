@@ -5,6 +5,7 @@ import Jogo.ConsoleColors;
 import Itens.Pocao;
 import Itens.ConsumivelCombate;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
@@ -121,10 +122,17 @@ public abstract class Heroi extends Entidade {
      * Método para escolher pocão para se curar
      */
     public void curar() {
-        if (this.inventario.isEmpty()){
-            System.out.println(ConsoleColors.RED + " **** INVENTÁRIO VAZIO " + ConsoleColors.RESET);
-            return;
+        //Adiciona uma Poçao de cura
+        this.adicionarItem(new Pocao("Poção de Vida", 0, 20, 0)); // Cura 20 de vida);
+
+        //Reduz o HP ao limite MaxHp
+        if (this.hp > this.maxHp) {
+            this.setHp(this.maxHp);
         }
+
+        System.out.println(ConsoleColors.PURPLE + "\nDeseja usar uma poção para se recuperar?" + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.PURPLE +"Lendo seu inventário de poções...\n"+ ConsoleColors.RESET);
+
         //Lista as poções do Inventário de Consumíveis
         int i = 1;
         for (Item item : this.inventario) {
@@ -135,9 +143,11 @@ public abstract class Heroi extends Entidade {
         }
         System.out.println(ConsoleColors.PURPLE + "0: Cancelar" + ConsoleColors.RESET);
         System.out.println(ConsoleColors.PURPLE_BOLD + "POÇÃO ESCOLHIDA >>> " + ConsoleColors.RESET);
+
         //Recebe a escolha do utilizador
         Scanner input = new Scanner(System.in);
         int itemEscolhido = input.nextInt();
+
         //Opção para não usar poção
         if (itemEscolhido == 0) {
             System.out.println(ConsoleColors.PURPLE + "Ação cancelada." + ConsoleColors.RESET);
@@ -161,13 +171,13 @@ public abstract class Heroi extends Entidade {
      * Método para subir o nível quando o NPC for derrotado
      */
     public void subirNivel () {
-        this.maxHp += 10; // Aumenta o maxHp ao subir de nível
         this.hp += 10;
+        //Reduz o HP ao limite MaxHp caso passe
         if (this.hp > this.maxHp) {
-            this.hp = this.maxHp; // Limita a vida ao maxHp
+            this.setHp(maxHp);
+            System.out.println("+ 10 hp");
         }
         this.nivel++;
-        System.out.println(ConsoleColors.GREEN_BOLD + "\n ***** PARABÉNS! Você alcançou o NÍVEL " + (this.nivel) + " ***** \n");
     }
 
     public ArrayList<Item> getInventario () {
@@ -201,6 +211,12 @@ public abstract class Heroi extends Entidade {
     public void setArmaPrincipal (Arma armaPrincipal){
         this.armaPrincipal = armaPrincipal;
 
+    }
+
+    public void pausas() {
+        System.out.println("Pressione Enter para continuar...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
     }
 
 
