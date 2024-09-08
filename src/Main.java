@@ -23,6 +23,7 @@ public class Main {
             // Inicia o Jogo
             if (heroi != null) {
                 jogo.tresReinos(heroi); // Configura o jogo (salas, etc.)
+                jogo.jogar(heroi);
             } else {
                 System.out.println("Personagem não criada!");
             }

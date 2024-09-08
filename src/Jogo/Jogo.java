@@ -227,29 +227,7 @@ public class Jogo {
 
 
 
-        // Instanciando os itens para o Vendedor
-        Vendedor vendedor = new Vendedor();
 
-        vendedor.adicionarItemLoja(new Arma("Espada de Aço Valiriano", 50, 20, 35));
-        vendedor.adicionarItemLoja(new Arma("Arco do Lobo Gigante", 45, 18, 30));
-        vendedor.adicionarItemLoja(new Arma("Cetro da Luz", 40, 15, 28));
-        vendedor.adicionarItemLoja(new Pocao("Poção de Vida", 25, 25, 0)); // Cura 25 de vida
-        vendedor.adicionarItemLoja(new Pocao("Poção de Força", 30, 0, 10)); // Aumenta força em 10
-        vendedor.adicionarItemLoja(new ConsumivelCombate("Flecha de Fogo", 10, 15)); // Ataque instantâneo
-        vendedor.adicionarItemLoja(new ConsumivelCombate("Bombas de Gelo", 15, 20)); // Ataque instantâneo
-        vendedor.adicionarItemLoja(new Pocao("Elixir da Resistência", 35, 0, 15)); // Aumenta força em 15
-        vendedor.adicionarItemLoja(new Arma("Cajado dos Antigos", 50, 17, 32));
-        vendedor.adicionarItemLoja(new ConsumivelCombate("Lâminas Envenenadas", 20, 25)); // Ataque instantâneo
-        vendedor.adicionarItemLoja(new Pocao("Poção do Vigor", 40, 30, 0)); // Cura 30 de vida
-        vendedor.adicionarItemLoja(new Pocao("Poção de Velocidade", 20, 0, 8)); // Aumenta força em 8
-        vendedor.adicionarItemLoja(new Arma("Espada Curta", 20, 10, 15));
-
-
-        // Instanciando os inimigos
-        NPC vaghar = new NPC("Dragão Vaghar", 200, 200, 25, 120);
-        NPC littleFinger = new NPC("Bruxo Little Finger", 150, 150, 15, 80);
-        NPC reiDoGelo = new NPC("Rei do Gelo", 190, 190, 20, 110);
-        NPC serpente = new NPC("Serpente Guardiã", 100, 100, 15, 0);
 
         Sala sala0 = new Sala(0, "Vendedor");
         Sala sala1 = new Sala(1, "Eldoria - O Bosque Encantado, lar de mistérios e magia antiga.");
@@ -279,7 +257,32 @@ public class Jogo {
             verificarConexoes();
 
     }
-    public void jogar(Heroi heroi,Vendedor vendedor, NPC littleFinger, NPC reiDoGelo, NPC vaghar, NPC serpente) throws FileNotFoundException {
+    public void jogar(Heroi heroi) throws FileNotFoundException {
+        // Instanciando os itens para o Vendedor
+        Vendedor vendedor = new Vendedor();
+
+        vendedor.adicionarItemLoja(new Arma("Espada de Aço Valiriano", 50, 20, 35));
+        vendedor.adicionarItemLoja(new Arma("Arco do Lobo Gigante", 45, 18, 30));
+        vendedor.adicionarItemLoja(new Arma("Cetro da Luz", 40, 15, 28));
+        vendedor.adicionarItemLoja(new Pocao("Poção de Vida", 25, 25, 0)); // Cura 25 de vida
+        vendedor.adicionarItemLoja(new Pocao("Poção de Força", 30, 0, 10)); // Aumenta força em 10
+        vendedor.adicionarItemLoja(new ConsumivelCombate("Flecha de Fogo", 10, 15)); // Ataque instantâneo
+        vendedor.adicionarItemLoja(new ConsumivelCombate("Bombas de Gelo", 15, 20)); // Ataque instantâneo
+        vendedor.adicionarItemLoja(new Pocao("Elixir da Resistência", 35, 0, 15)); // Aumenta força em 15
+        vendedor.adicionarItemLoja(new Arma("Cajado dos Antigos", 50, 17, 32));
+        vendedor.adicionarItemLoja(new ConsumivelCombate("Lâminas Envenenadas", 20, 25)); // Ataque instantâneo
+        vendedor.adicionarItemLoja(new Pocao("Poção do Vigor", 40, 30, 0)); // Cura 30 de vida
+        vendedor.adicionarItemLoja(new Pocao("Poção de Velocidade", 20, 0, 8)); // Aumenta força em 8
+        vendedor.adicionarItemLoja(new Arma("Espada Curta", 20, 10, 15));
+
+
+        // Instanciando os inimigos
+        NPC vaghar = new NPC("Dragão Vaghar", 200, 200, 25, 120);
+        NPC littleFinger = new NPC("Bruxo Little Finger", 150, 150, 15, 80);
+        NPC reiDoGelo = new NPC("Rei do Gelo", 190, 190, 20, 110);
+        NPC serpente = new NPC("Serpente Guardiã", 100, 100, 15, 0);
+
+
         do{
             executarSalaAtual(heroi, vendedor, littleFinger, reiDoGelo, vaghar, serpente);
             direcao(heroi, vendedor, littleFinger, reiDoGelo, vaghar, serpente);
@@ -293,8 +296,8 @@ public class Jogo {
 
         for (Sala sala : salas) {
             System.out.println("Sala: " + sala.getNome() + " - Conexões: ");
-            for (Sala conexao : sala.getSalasDisponiveis()) {
-                System.out.println(" -> " + conexao.getNome());
+            for (Integer conexao : sala.getSalasDisponiveis()) {
+                System.out.println(" -> " + conexao);
             }
         }
     }
