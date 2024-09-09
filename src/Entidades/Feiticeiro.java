@@ -52,14 +52,17 @@ public class Feiticeiro extends Heroi {
                 break;
             case 2:
                 System.out.println();
-
-                // Ataque Especial do herói
-                npc.hp -= this.forca + armaPrincipal.getAtaqueEspecial();
-                this.hp -= npc.forca;
-                System.out.println("\n            ATAQUE DO HERÓI \n");
-                System.out.println(this.nome + " canaliza sua energia, preparando um ataque especial com " + armaPrincipal.getNome() + "!");
-                System.out.println("\n \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5 \n");
-                System.out.println(this.nome + " desferiu um ataque especial em " + npc.nome + ", causando " + (this.forca + armaPrincipal.getAtaqueEspecial()) + " de dano devastador!");
+                if (ataqueEspecial()) {
+                    npc.hp -= this.forca + armaPrincipal.getAtaqueEspecial();
+                    this.ataqueEspecial = true;
+                    System.out.println("\n            ATAQUE DO HERÓI \n");
+                    System.out.println(this.nome + " canaliza sua energia, preparando um ataque especial com " + armaPrincipal.getNome() + "!");
+                    System.out.println("\n \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5  \uD83D\uDCA5 \n");
+                    System.out.println(this.nome + " desferiu um ataque especial em " + npc.nome + ", causando " + (this.forca + armaPrincipal.getAtaqueEspecial()) + " de dano devastador!");
+                    System.out.println();
+                } else {
+                    System.out.println("Seu ataque especial já foi usado.");
+                }
 
                 pausas();
 

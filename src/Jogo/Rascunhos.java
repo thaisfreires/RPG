@@ -211,8 +211,21 @@ public class Rascunhos {
         } while (nivel > 0);
     }
 
+  NPC vaghar = new NPC("Dragão Vaghar", 200, 200, 25, 120);
+        NPC littleFinger = new NPC("Bruxo Little Finger", 150, 150, 15, 80);
+        NPC reiDoGelo = new NPC("Rei do Gelo", 190, 190, 20, 110);
+        NPC serpente = new NPC("Serpente Guardiã", 100, 100, 15, 0);
 
+    }
 
+    public void opcoesDeMovimento(int indexId) {
+        ArrayList<Sala> opcoes = salaAtual.getSalasDisponiveis();
+
+        if (indexId >= 0 && indexId < opcoes.size()) {
+            salaAtual = opcoes.get(indexId);
+        } else {
+            System.out.println("Não há movimentações disponível.");
+        }
     }
 
 }

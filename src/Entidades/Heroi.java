@@ -15,6 +15,7 @@ public abstract class Heroi extends Entidade {
     int ouro;
     Arma armaPrincipal;
     ArrayList<Item> inventario;
+    boolean ataqueEspecial;
 
     public Heroi(String nome, int hp, int maxHp, int forca, int nivel, int ouro, Arma armaPrincipal) {
         super(nome, hp, maxHp, forca);
@@ -22,6 +23,7 @@ public abstract class Heroi extends Entidade {
         this.ouro = ouro;
         this.armaPrincipal = armaPrincipal;
         this.inventario = new ArrayList<Item>();
+        this.ataqueEspecial = false;
     }
 
     /**
@@ -39,6 +41,14 @@ public abstract class Heroi extends Entidade {
         System.out.println("Nível: " + this.nivel + " | Ouro: " + this.ouro + " moedas");
         System.out.println("Arma Principal: " + armaPrincipal.getNome() + " | Ataque da arma: " + armaPrincipal.getAtaque() + " | Ataque Especial da arma: " + armaPrincipal.getAtaqueEspecial());
         System.out.println();
+    }
+
+    /**
+     * Método auxiliar usado na limitação de ataque especial no combate
+     * @return Retorna o controle do ataque especial no combate
+     */
+    public boolean ataqueEspecial() {
+        return !ataqueEspecial;
     }
 
     /**
@@ -180,6 +190,7 @@ public abstract class Heroi extends Entidade {
         this.nivel++;
     }
 
+
     public ArrayList<Item> getInventario () {
         return inventario;
     }
@@ -220,6 +231,18 @@ public abstract class Heroi extends Entidade {
     }
 
 
+
+
+    /**
+     * Método que cria um clone do herói para reutilização
+     * @return o clone das configurações iniciais
+     */
+    public Heroi clonar() {
+        Heroi clone = new Clone(this.getNome(), this.getHp(), this.getMaxHp(), this.getForca(),this.getNivel(),this.getOuro(),this.getArmaPrincipal());
+        clone.setHp(this.getHp());
+        clone.setOuro(this.getOuro());
+        return clone;
+    }
 }
 
 

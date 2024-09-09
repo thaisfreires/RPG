@@ -34,6 +34,7 @@ public abstract class Entidade {
     public void morrer(){
         this.hp = 0;
         this.maxHp = 0;
+
     }
 
     /**

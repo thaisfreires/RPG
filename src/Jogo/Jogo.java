@@ -13,14 +13,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Jogo {
-    protected ArrayList<Sala> salas;
-    protected Sala salaAtual;
-
-
+    public ArrayList<Sala> salas;
+    private Sala salaAtual;
+    private Heroi primeiroHeroi;
 
     public Jogo() {
         this.salas = new ArrayList<>();
-
+        configurarSalas();
     }
     /**
      * Método que imprime o conteudo de um ficheiro na consola
@@ -185,6 +184,9 @@ public class Jogo {
         }
         // Verificação final
         if (heroi != null) {
+            heroi = new Clone(heroi.getNome(), heroi.getHp(),heroi.getMaxHp(),heroi.getForca(),heroi.getNivel(),heroi.getOuro(),heroi.getArmaPrincipal());
+            primeiroHeroi = heroi.clonar();
+
             System.out.println(ConsoleColors.YELLOW + "\n >>>>  HERÓI CRIADO COM SUCESSO  <<<< \n");
             heroi.detalhesHeroi();
             System.out.println(ConsoleColors.RESET);
@@ -201,7 +203,65 @@ public class Jogo {
         return heroi;
     }
 
-    public void tresReinos(Heroi heroi) throws FileNotFoundException {
+    public void configurarSalas(){
+
+
+        //Instanciando as salas
+        Sala sala0 = new Sala(0, "Vendedor");
+        Sala sala1 = new Sala(1, "Eldoria - O Bosque Encantado, lar de mistérios e magia antiga.");
+        Sala sala2 = new Sala(2, "Thaloria - As Montanhas Geladas do Norte, onde o frio e o perigo são constantes.");
+        Sala sala3 = new Sala(3, "Ravenfell - O Reino Sombrio, com o fosso do dragão e sombras traiçoeiras.");
+        Sala sala4 = new Sala(4, "Fonte da Harmonia");
+        Sala sala5 = new Sala(5, "Caverna Misteriosa");
+
+        //Adicionando as salas
+        salas.add(sala0);
+        salas.add(sala1);
+        salas.add(sala2);
+        salas.add(sala3);
+        salas.add(sala4);
+        salas.add(sala5);
+
+        // Começar na sala 0
+        salaAtual = sala0;
+
+        //Adicionar conexões entre as salas
+        sala0.conectar(sala1); // Vendedor para Eldoria
+        sala0.conectar(sala2); // Vendedor para Thaloria
+        sala0.conectar(sala3); // Vendedor para Ravenfell
+
+        sala1.conectar(sala3); // Eldoria para Ravenfell
+        sala1.conectar(sala2); // Eldoria para Thaloria
+
+        sala2.conectar(sala3); // Thaloria para Ravenfell
+        sala2.conectar(sala0); // Thaloria para Vendedor
+
+        sala3.conectar(sala5); // Ravenfell para Sala misteriosa
+        sala3.conectar(sala0); // Ravenfell para Vendedor
+        sala3.conectar(sala2); // Ravenfell para Thaloria
+
+        sala0.conectar(sala4); // Vendedor para Fonte da Harmonia
+        sala0.conectar(sala5); // Vendedor para Sala Misteriosa
+
+        sala1.conectar(sala4); // Eldoria para Fonte da Harmonia
+        sala1.conectar(sala5); // Eldoria para Sala Misteriosa
+
+        sala2.conectar(sala4); // Thaloria para Fonte da Harmonia
+        sala2.conectar(sala5); // Thaloria para Sala Misteriosa
+
+        sala3.conectar(sala4); // Ravenfell para Fonte da Harmonia
+        sala3.conectar(sala5); // Ravenfell para Sala Misteriosa
+
+        sala5.conectar(sala4); // Sala Misteriosa para Fonte da Harmonia
+
+    }
+
+    /**
+     * Método de execução do jogo
+     * @param heroi já criado
+     * @throws FileNotFoundException
+     */
+    public void tresReinos(Heroi heroi) throws FileNotFoundException, CloneNotSupportedException {
         Scanner input = new Scanner(System.in);
         System.out.println();
         System.out.println();
@@ -218,7 +278,8 @@ public class Jogo {
         System.out.println("║   Os três reinos estão em caos, e apenas você pode         ║");
         System.out.println("║   restaurar a paz.                                         ║");
         System.out.println("║   Sua missão é derrotar o dragão Vaghar,                   ║");
-        System.out.println("║   o bruxo Little Finger, e o Rei do Gelo.                  ║");
+        System.out.println("║   o bruxo Little Finger, e o Rei do Gelo e encontrar       ║");
+        System.out.println("║   a PEDRA DA PAZ que está perdida.                         ║");
         System.out.println("║   Prepare-se para os desafios que estão por vir!           ║");
         System.out.println("║                                                            ║");
         System.out.println("╚════════════════════════════════════════════════════════════╝");
@@ -226,147 +287,80 @@ public class Jogo {
         input.nextLine();
 
 
-
-
-
-        Sala sala0 = new Sala(0, "Vendedor");
-        Sala sala1 = new Sala(1, "Eldoria - O Bosque Encantado, lar de mistérios e magia antiga.");
-        Sala sala2 = new Sala(2, "Thaloria - As Montanhas Geladas do Norte, onde o frio e o perigo são constantes.");
-        Sala sala3 = new Sala(3, "Ravenfell - O Reino Sombrio, com o fosso do dragão e sombras traiçoeiras.");
-        Sala sala4 = new Sala(4, "Fonte da Harmonia");
-        Sala sala5 = new Sala(5, "Caverna Misteriosa");
-
-
-        salas.add(sala0);
-        salas.add(sala1);
-        salas.add(sala2);
-        salas.add(sala3);
-        salas.add(sala4);
-        salas.add(sala5);
-
-        salaAtual = sala0; // Começar na sala 0
-
-        //Configurar conexões com as salas
-
-
-        // Verificar e imprimir conexões
-
-
-            gerenciarSalas(heroi);
-
-            verificarConexoes();
-
-    }
-    public void jogar(Heroi heroi) throws FileNotFoundException {
-        // Instanciando os itens para o Vendedor
-        Vendedor vendedor = new Vendedor();
-
-        vendedor.adicionarItemLoja(new Arma("Espada de Aço Valiriano", 50, 20, 35));
-        vendedor.adicionarItemLoja(new Arma("Arco do Lobo Gigante", 45, 18, 30));
-        vendedor.adicionarItemLoja(new Arma("Cetro da Luz", 40, 15, 28));
-        vendedor.adicionarItemLoja(new Pocao("Poção de Vida", 25, 25, 0)); // Cura 25 de vida
-        vendedor.adicionarItemLoja(new Pocao("Poção de Força", 30, 0, 10)); // Aumenta força em 10
-        vendedor.adicionarItemLoja(new ConsumivelCombate("Flecha de Fogo", 10, 15)); // Ataque instantâneo
-        vendedor.adicionarItemLoja(new ConsumivelCombate("Bombas de Gelo", 15, 20)); // Ataque instantâneo
-        vendedor.adicionarItemLoja(new Pocao("Elixir da Resistência", 35, 0, 15)); // Aumenta força em 15
-        vendedor.adicionarItemLoja(new Arma("Cajado dos Antigos", 50, 17, 32));
-        vendedor.adicionarItemLoja(new ConsumivelCombate("Lâminas Envenenadas", 20, 25)); // Ataque instantâneo
-        vendedor.adicionarItemLoja(new Pocao("Poção do Vigor", 40, 30, 0)); // Cura 30 de vida
-        vendedor.adicionarItemLoja(new Pocao("Poção de Velocidade", 20, 0, 8)); // Aumenta força em 8
-        vendedor.adicionarItemLoja(new Arma("Espada Curta", 20, 10, 15));
-
-
-        // Instanciando os inimigos
-        NPC vaghar = new NPC("Dragão Vaghar", 200, 200, 25, 120);
-        NPC littleFinger = new NPC("Bruxo Little Finger", 150, 150, 15, 80);
-        NPC reiDoGelo = new NPC("Rei do Gelo", 190, 190, 20, 110);
-        NPC serpente = new NPC("Serpente Guardiã", 100, 100, 15, 0);
+        salaAtual = getSalaAtual();
 
 
         do{
-            executarSalaAtual(heroi, vendedor, littleFinger, reiDoGelo, vaghar, serpente);
-            direcao(heroi, vendedor, littleFinger, reiDoGelo, vaghar, serpente);
+            // Executar a sala atual
+            executarSalaAtual(heroi);
 
-        }while (!heroi.estaMorto());
+            // Mostrar opções de movimento
+            direcao();
+
+        }while (!salaAtual.jogoAcabou);
+
+        opcoesFimDeJogo(heroi);
+
     }
 
+    /**
+     * Método com opções para o fim ou recomeço do jogo.
+     * @param heroi clonado ou recriado
+     * @throws FileNotFoundException caso nao encontre o arquivo
+     * @throws CloneNotSupportedException
+     */
+    public void opcoesFimDeJogo(Heroi heroi) throws FileNotFoundException, CloneNotSupportedException {
+        Scanner input = new Scanner(System.in);
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
 
-    public void verificarConexoes() {
-        System.out.println("Chamando verificarConexoes()");
+        System.out.println("1. Jogar novamente com a mesma personagem");
+        System.out.println("2. Jogar novamente com nova personagem ");
+        System.out.println("3. Sair");
+        int escolha = input.nextInt();
+        input.nextLine(); // Limpa o buffer do Scanner
 
-        for (Sala sala : salas) {
-            System.out.println("Sala: " + sala.getNome() + " - Conexões: ");
-            for (Integer conexao : sala.getSalasDisponiveis()) {
-                System.out.println(" -> " + conexao);
-            }
+        switch (escolha) {
+            case 1:
+                heroi = primeiroHeroi.clonar();
+                // Reseta o jogo (reinicia o nível do herói e a sala atual)
+                heroi.setNivel(1);
+                setSalaAtual(salas.get(0)); // Volta para a sala inicial
+                salaAtual.jogoAcabou = false; // Reseta o jogoAcabou
+                tresReinos(heroi);
+                break;
+            case 2:
+                criarPersonagem();
+                tresReinos(heroi);
+                break;
+            case 3:
+                System.out.println("\nObrigado por jogar!\n");
+                System.exit(0);
+                break;
         }
+
     }
 
 
     /**
-     * Método que gerencia as conexões possíveis entre as salas
+     * Método para executar a lógica da sala atual
      */
-
-    public void gerenciarSalas(Heroi heroi) {
-        int nivel = heroi.getNivel();
-
-            switch (nivel) {
-                case 1:
-                    salas.get(0).conectar(salas.get(1).getId()); // Conectar Vendedor para Eldoria
-                    salas.get(0).conectar(salas.get(2).getId()); // Conectar Vendedor para Thaloria
-                    salas.get(0).conectar(salas.get(3).getId()); // Conectar Vendedor para Ravenfell
-                    break;
-
-                case 2:
-                    salas.get(1).conectar(salas.get(3).getId()); // Eldoria para Ravenfell
-                    salas.get(1).conectar(salas.get(2).getId()); // Eldoria para Thaloria
-
-                    salas.get(2).conectar(salas.get(3).getId()); // Thaloria para Ravenfell
-                    salas.get(2).conectar(salas.get(0).getId()); // Thaloria para Vendedor
-
-                    salas.get(3).conectar(salas.get(5).getId()); // Ravenfell para Sala Misteriosa
-                    salas.get(3).conectar(salas.get(0).getId()); // Ravenfell para Vendedor
-                    break;
-
-                case 3:
-                    salas.get(0).conectar(salas.get(4).getId()); // Vendedor para Fonte da Harmonia
-                    salas.get(0).conectar(salas.get(5).getId()); // Vendedor para Sala Misteriosa
-
-                    salas.get(1).conectar(salas.get(4).getId()); // Eldoria para Fonte da Harmonia
-                    salas.get(1).conectar(salas.get(5).getId()); // Eldoria para Sala Misteriosa
-
-                    salas.get(3).conectar(salas.get(4).getId()); // Ravenfell para Fonte da Harmonia
-                    salas.get(3).conectar(salas.get(5).getId()); // Ravenfell para Sala Misteriosa
-                    break;
-                default:
-                    System.out.println("Nenhuma conexão disponível para o nível do herói.");
-                    break;
-            }
-
-    }
-
-
-
-
-
-    // Método para executar a lógica da sala atual (agora estático)
-    private void executarSalaAtual(Heroi heroi, Vendedor vendedor, NPC littleFinger, NPC reiDoGelo, NPC vaghar, NPC serpente) throws FileNotFoundException {
+    private void executarSalaAtual(Heroi heroi) throws FileNotFoundException, CloneNotSupportedException {
 
         switch (salaAtual.getId()) {
             case 0:
-                salaAtual.salaDoVendedor(heroi, vendedor);
+                salaAtual.salaDoVendedor(heroi);
                 break;
             case 1:
-                salaAtual.salaDeEldoria(heroi, littleFinger);
+                salaAtual.salaDeEldoria(heroi);
                 break;
             case 2:
-                salaAtual.salaDeThaloria(heroi, reiDoGelo);
+                salaAtual.salaDeThaloria(heroi);
                 break;
             case 3:
-                salaAtual.salaDeRavenfell(heroi, vaghar);
+                salaAtual.salaDeRavenfell(heroi);
                 break;
             case 4:
-                salaAtual.salaFonteDaHarmonia(heroi, serpente);
+                salaAtual.salaFonteDaHarmonia(heroi);
                 break;
             case 5:
                 salaAtual.salaMisteriosa(heroi);
@@ -376,37 +370,32 @@ public class Jogo {
         }
     }
 
-    // Método para mostrar opções de movimento
-    private void direcao(Heroi heroi, Vendedor vendedor, NPC littleFinger, NPC reiDoGelo, NPC vaghar, NPC serpente) {
+    /**
+     * Método para mostrar as opções de direções
+     */
+    private void direcao() {
         Scanner scanner = new Scanner(System.in);
-
-        // Mostrar as opções de salas disponíveis diretamente da sala atual
-        if (salaAtual.getSalasDisponiveis().isEmpty()) {
-            System.out.println("Não há opções de movimento disponíveis.");
-            return; // Saímos do método caso não haja opções
-        }
 
         System.out.println("\n------------------------------------------------------------");
         System.out.println("Opções de Movimento:");
 
-        // Mostrar as opções de salas disponíveis
-        for (int i = 0; i < salaAtual.getSalasDisponiveis().size(); i++) {
-            Sala proximaSala = salas.get(salaAtual.getSalasDisponiveis().get(i));
+        //Mostrar as opções de salas disponíveis diretamente da sala atual
+        ArrayList<Sala> salasDisponiveis = salaAtual.getSalasDisponiveis();
+
+        for (int i = 0; i < salasDisponiveis.size(); i++) {
+            Sala proximaSala = salasDisponiveis.get(i); // Acessa a sala diretamente da lista
             System.out.println((i + 1) + ". " + proximaSala.getNome());
         }
         System.out.println("Digite o número correspondente ao movimento desejado >>> ");
 
-        // Lê a escolha do usuário e verifica se é um inteiro válido
-        while (!scanner.hasNextInt()) {
-            System.out.println("Por favor, digite um número inteiro válido.");
-            scanner.next(); // Consumir a entrada inválida
-        }
+        //Lê a escolha do usuário
         int escolhaSalaAtual = scanner.nextInt();
+        scanner.nextLine(); // Limpa o buffer do Scanner
 
-        // Processando a escolha
-        if (escolhaSalaAtual > 0 && escolhaSalaAtual <= salaAtual.getSalasDisponiveis().size()) {
-            // Atualiza a sala atual com a sala escolhida
-            salaAtual = salas.get(salaAtual.getSalasDisponiveis().get(escolhaSalaAtual - 1));
+        //Processando a escolha
+        if (escolhaSalaAtual > 0 && escolhaSalaAtual <= salasDisponiveis.size()) {
+            // Atualiza a sala atual com a sala escolhida usando o método setSalaAtual
+            setSalaAtual(salasDisponiveis.get(escolhaSalaAtual - 1));
         } else {
             System.out.println(ConsoleColors.YELLOW_BACKGROUND + "Opção Inválida" + ConsoleColors.RESET);
         }
@@ -417,7 +406,7 @@ public class Jogo {
         return salaAtual;
     }
 
-    public void setSalaAtual(Sala salaAtual) {
-        this.salaAtual = salaAtual;
+    public void setSalaAtual(Sala novaSalaAtual) {
+        this.salaAtual = novaSalaAtual;
     }
 }

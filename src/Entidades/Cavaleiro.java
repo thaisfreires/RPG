@@ -64,16 +64,20 @@ public class Cavaleiro extends Heroi{
                 break;
             case 2:
                 System.out.println();
+                // Ataque Especial do Herói
+                if (ataqueEspecial()) {
+                    npc.hp -= this.forca + armaPrincipal.getAtaqueEspecial();
+                    this.ataqueEspecial = true;
+                    System.out.println(ConsoleColors.GREEN_BOLD + "\n            ATAQUE DO HERÓI \n" + ConsoleColors.RESET);
+                    System.out.println(this.nome + " dá um salto poderoso no ar, pronto para desferir um ataque devastador com sua " + armaPrincipal.getNome() + "...");
+                    System.out.println("\n⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F\n");
+                    System.out.println(this.nome + " desce com força, golpeando " + npc.nome + " com um ataque especial, causando " + (this.forca + armaPrincipal.getAtaqueEspecial()) + " de dano!");
 
-                // Ataque Especial
-                npc.hp -= this.forca + armaPrincipal.getAtaqueEspecial();
-                System.out.println(ConsoleColors.GREEN_BOLD + "\n            ATAQUE DO HERÓI \n" + ConsoleColors.RESET);
-                System.out.println(this.nome + " dá um salto poderoso no ar, pronto para desferir um ataque devastador com sua " + armaPrincipal.getNome() + "...");
-                System.out.println("\n⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F  ⛏\uFE0F\n");
-                System.out.println(this.nome + " desce com força, golpeando " + npc.nome + " com um ataque especial, causando " + (this.forca + armaPrincipal.getAtaqueEspecial()) + " de dano!");
-
-                pausas();
-
+                    pausas();
+                    System.out.println();
+                } else {
+                    System.out.println("Seu ataque especial já foi usado.");
+                }
 
                 System.out.println(ConsoleColors.RED_BOLD + "\n            ATAQUE DO INIMIGO \n" + ConsoleColors.RESET);
                 System.out.println(npc.nome + " mal consegue reagir, sofrendo " + npc.forca + " de dano ao tentar contra-atacar!\n");

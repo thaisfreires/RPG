@@ -10,40 +10,24 @@ import java.util.Scanner;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-        Jogo jogo = new Jogo();
-        Scanner input = new Scanner(System.in);
+    public static void main(String[] args) throws FileNotFoundException, CloneNotSupportedException {
+        Scanner scanner = new Scanner(System.in);
+
         Heroi heroi = null; // Inicializa o herói como null
-        int escolha = 0;
 
         do {
+            Jogo jogo = new Jogo();
+
             // Cria o herói
             heroi = jogo.criarPersonagem();
+            jogo.tresReinos(heroi); // Executa o Jogo
 
-            // Inicia o Jogo
-            if (heroi != null) {
-                jogo.tresReinos(heroi); // Configura o jogo (salas, etc.)
-                jogo.jogar(heroi);
-            } else {
-                System.out.println("Personagem não criada!");
-            }
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
+            System.out.println("Para Jogar digite 1");
 
-            if (heroi != null) { // Verifica se o herói foi criado
-                // Mostrar opções de continuar jogando ou criar novo personagem
-                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n"); // Limpa a tela
-                System.out.println(">>> O jogo acabou! Você foi derrotado! ");
-                System.out.println("\nO que você deseja fazer?\n");
-                System.out.println("1. Jogar novamente com a mesma personagem");
-                System.out.println("2. Criar uma nova personagem");
-                System.out.println("3. Sair do jogo");
-                System.out.println(" >>> ");
+        }while (scanner.nextInt() != 1) ; // Continua o loop até o jogador não escolher jogar
 
-                escolha = input.nextInt();
-                input.nextLine(); // Limpa o buffer do Scanner
-            }
-        } while (escolha != 3); // Continua o loop até o jogador escolher sair
+        System.out.println("\nObrigado por jogar!\n");
 
-        System.out.println("Obrigado por jogar!");
-        input.close();
     }
 }
