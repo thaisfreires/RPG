@@ -224,14 +224,14 @@ public abstract class Heroi extends Entidade {
 
     }
 
+    /**
+     * Método que adiciona pausas no jogo com scanner
+     */
     public void pausas() {
         System.out.println("Pressione Enter para continuar...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
     }
-
-
-
 
     /**
      * Método que cria um clone do herói para reutilização

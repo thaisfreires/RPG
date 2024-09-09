@@ -17,13 +17,11 @@ public class Sala {
     private int id;
     private String nome;
     private ArrayList<Sala> salasDisponiveis;
-    public boolean jogoAcabou;
 
     public Sala(int id, String nome) {
         this.id = id;
         this.nome = nome;
         this.salasDisponiveis = new ArrayList<>();
-        this.jogoAcabou = false;
     }
     public void conectar(Sala proximaSala){
         this.salasDisponiveis.add(proximaSala);
@@ -281,7 +279,6 @@ public class Sala {
         pausas();
         imprimirFicheiro("src/Arquivos/musica");
         pausas();
-        fimDeJogo(heroi);
         System.out.println();
 
     }
@@ -301,29 +298,45 @@ public class Sala {
             int dano = random.nextInt(30) + 1; // Dano entre 1 e 30
             System.out.println(ConsoleColors.RED_BOLD + "\uD83D\uDC80 Cuidado!" + ConsoleColors.RESET + " Ao dar o primeiro passo, o chão se abre e lanças afiadas disparam das paredes!");
             System.out.println(ConsoleColors.RED_BOLD + "Você foi atingido por uma armadilha e perdeu " + dano + " de vida!" + ConsoleColors.RESET);
+            // Aplica o dano ao herói
             heroi.receberDano(dano);
+
+            // Exibe os detalhes atualizados do herói
+            System.out.println("\nDetalhes do Herói após a armadilha:");
             heroi.detalhesHeroi();
+
             pausas();
 
+            // Verifica se o herói morreu
             if (heroi.estaMorto()) {
-                fimDeJogo(heroi); // Chama fimDeJogo se o herói morrer na armadilha
+                System.out.println(ConsoleColors.RED_BOLD + "O herói não resistiu à armadilha." + ConsoleColors.RESET);
+                return; // Sai da sala, já que o herói morreu
             }
 
         } else {
             int chanceMorte = random.nextInt(100);
             if (chanceMorte < 50) {
-                System.out.println(ConsoleColors.RED_BOLD + "\uD83D\uDC80 Perigo mortal!" + ConsoleColors.RESET + " Um gás venenoso preenche a sala rapidamente.");
-                System.out.println(ConsoleColors.RED_BOLD + "Você inalou o veneno e sua visão começa a escurecer... você não sobreviveu." + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.RED_BOLD + "\n\uD83D\uDC80 Perigo mortal!" + ConsoleColors.RESET + " Um gás venenoso preenche a sala rapidamente.");
+                System.out.println(ConsoleColors.RED_BOLD + "Você inalou o veneno e sua visão começa a escurecer... você não sobreviveu.\n" + ConsoleColors.RESET);
+                // Exibe os detalhes atualizados do herói
                 heroi.detalhesHeroi();
                 pausas();
                 heroi.morrer();
 
-                fimDeJogo(heroi); //Chama fimDeJogo se o herói morrer na armadilha
+                if (heroi.estaMorto()) {
+                    heroi.morrer();
+                    System.out.println(ConsoleColors.RED_BOLD + "O herói foi derrotado pelo gás venenoso." + ConsoleColors.RESET);
+                    return; // Sai do método, pois o herói morreu
+                }
 
             } else {
-                System.out.println(ConsoleColors.GREEN_BOLD + "\uD83C\uDF40 Sorte a sua!" + ConsoleColors.RESET + " A sala parecia perigosa, mas você conseguiu passar por ela sem maiores problemas.");
-                System.out.println(ConsoleColors.GREEN_BOLD + "Você sai da Caverna Misteriosa ileso, mas com os nervos à flor da pele." + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.GREEN_BOLD + "\n\uD83C\uDF40 Sorte a sua!" + ConsoleColors.RESET + " A sala parecia perigosa, mas você conseguiu passar por ela sem maiores problemas.");
+                System.out.println(ConsoleColors.GREEN_BOLD + "Você sai da Caverna Misteriosa ileso, mas com os nervos à flor da pele.\n" + ConsoleColors.RESET);
+                // Exibe os detalhes atualizados do herói
                 heroi.detalhesHeroi();
+
+                // Chama o método de saída da sala
+                saidaSala(heroi);
             }
         }
     }
@@ -384,29 +397,6 @@ public class Sala {
         System.out.println(ConsoleColors.CYAN_BOLD + "              ****************************************************" + ConsoleColors.RESET);
         System.out.println();
     }
-
-    /**
-     * Método que avisa que o jogo acabou
-     * @param heroi criado foi morto
-     * @throws FileNotFoundException
-     * @throws CloneNotSupportedException
-     */
-    public void fimDeJogo(Heroi heroi) throws FileNotFoundException, CloneNotSupportedException {
-
-        if (heroi.estaMorto()) {
-            imprimirFicheiro("src/Arquivos/GAMEOVER");
-            System.out.println(ConsoleColors.RED_BOLD + heroi.getNome() + " FOI DERROTADO! GAME OVER." + ConsoleColors.RESET);
-
-        } else {
-            imprimirFicheiro("src/Arquivos/Winner");
-            System.out.println(ConsoleColors.GREEN_BOLD + "Parabéns! Você VENCEU o jogo!" + ConsoleColors.RESET);
-        }
-        // Indica que o jogo acabou
-        jogoAcabou = true;
-
-    }
-    // Método para mostrar opções no fim do jogo
-
 
     public int getId() {
         return id;

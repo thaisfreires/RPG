@@ -16,10 +16,14 @@ public class Jogo {
     public ArrayList<Sala> salas;
     private Sala salaAtual;
     private Heroi primeiroHeroi;
+    private boolean jogoAcabou = false; // Inicializa como falso
+
 
     public Jogo() {
         this.salas = new ArrayList<>();
         configurarSalas();
+        this.jogoAcabou = false;
+
     }
     /**
      * Método que imprime o conteudo de um ficheiro na consola
@@ -291,17 +295,48 @@ public class Jogo {
 
 
         do{
+
             // Executar a sala atual
             executarSalaAtual(heroi);
+
+            // Verifica se o jogo acabou após a movimentação
+            if (heroi.estaMorto()) {
+                fimDeJogo(heroi);  // Chama o método que imprime o fim do jogo
+                jogoAcabou = true;
+                break;
+            }
 
             // Mostrar opções de movimento
             direcao();
 
-        }while (!salaAtual.jogoAcabou);
+            if (heroi.estaMorto()) {
+                fimDeJogo(heroi);  // Chama o método que imprime o fim do jogo
+                jogoAcabou = true;
+                break;
+            }
+
+            }while (!jogoAcabou);
 
         opcoesFimDeJogo(heroi);
 
     }
+    /**
+     * Método que avisa que o jogo acabou
+     * @param heroi criado foi morto
+     * @throws FileNotFoundException
+     * @throws CloneNotSupportedException
+     */
+    public void fimDeJogo(Heroi heroi) throws FileNotFoundException, CloneNotSupportedException {
+        if (heroi.estaMorto()) {
+            imprimirFicheiro("src/Arquivos/GAMEOVER");
+            System.out.println(ConsoleColors.RED_BOLD + heroi.getNome() + " FOI DERROTADO! GAME OVER." + ConsoleColors.RESET);
+        } else {
+            imprimirFicheiro("src/Arquivos/Winner");
+            System.out.println(ConsoleColors.GREEN_BOLD + "Parabéns! Você VENCEU o jogo!" + ConsoleColors.RESET);
+        }
+        jogoAcabou = true;
+    }
+
 
     /**
      * Método com opções para o fim ou recomeço do jogo.
@@ -325,7 +360,7 @@ public class Jogo {
                 // Reseta o jogo (reinicia o nível do herói e a sala atual)
                 heroi.setNivel(1);
                 setSalaAtual(salas.get(0)); // Volta para a sala inicial
-                salaAtual.jogoAcabou = false; // Reseta o jogoAcabou
+                jogoAcabou = false; // Reseta o jogoAcabou
                 tresReinos(heroi);
                 break;
             case 2:
