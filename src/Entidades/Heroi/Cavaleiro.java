@@ -1,11 +1,13 @@
-package Entidades;
+package Entidades.Heroi;
 
+import Entidades.Heroi;
+import Entidades.NPC;
 import Itens.Arma;
 import Jogo.ConsoleColors;
 
 import java.util.Scanner;
 
-public class Cavaleiro extends Heroi{
+public class Cavaleiro extends Heroi {
     public Cavaleiro(String nome, int hp, int maxHp, int forca, int nivel, int ouro, Arma armaPrincipal) {
         super(nome, hp, maxHp, forca, nivel, ouro, armaPrincipal);
     }

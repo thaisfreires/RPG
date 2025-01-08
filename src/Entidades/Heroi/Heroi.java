@@ -1,14 +1,15 @@
-package Entidades;
+package Entidades.Heroi;
 
+import Entidades.Clone;
+import Entidades.Entidade;
+import Entidades.NPC;
 import Itens.*;
 import Jogo.ConsoleColors;
 import Itens.Pocao;
 import Itens.ConsumivelCombate;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.ConsoleHandler;
 
 public abstract class Heroi extends Entidade {
     int nivel;

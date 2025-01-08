@@ -1,5 +1,7 @@
-package Entidades;
+package Entidades.Heroi;
 
+import Entidades.Heroi;
+import Entidades.NPC;
 import Itens.Arma;
 import Jogo.ConsoleColors;
 
