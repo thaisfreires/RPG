@@ -1,16 +1,21 @@
-package Entidades;
+package Entidades.Heroi;
 
+import Entidades.Heroi;
+import Entidades.NPC;
 import Itens.Arma;
 import Jogo.ConsoleColors;
 
 import java.util.Scanner;
 
-public class Clone extends Heroi{
-
-    public Clone(String nome, int hp, int maxHp, int forca, int nivel, int ouro, Arma armaPrincipal) {
+public class Arqueiro extends Heroi {
+    public Arqueiro(String nome, int hp, int maxHp, int forca, int nivel, int ouro, Arma armaPrincipal) {
         super(nome, hp, maxHp, forca, nivel, ouro, armaPrincipal);
     }
 
+    /**
+     * Método de ataque npc x heroi
+     * @param npc
+     */
     @Override
     public void atacar(NPC npc) {
         //Utilizador escolhe o tipo de ataque
@@ -82,22 +87,21 @@ public class Clone extends Heroi{
                 // Ataque do inimigo com 10% a mais de dano
                 danoInimigo = (int) (npc.getForca() * 1.1); // 10% a mais de dano
                 this.receberDano(danoInimigo);
-                System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\nAtaque! " + npc.nome + " atacou " + this.nome + " causando " + danoInimigo + " de dano!" + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "\nAtaque! " +npc.nome + " atacou " + this.nome + " causando " + danoInimigo + " de dano!"+ ConsoleColors.RESET);
                 System.out.println("🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥  ");
                 break;
             default:
-                System.out.println("⚠ Opção Inválida ⚠");
-        }
+                System.out.println("⚠ Opção Inválida ⚠");        }
 
+
+    }
+    /**
+     * Método para acessar os detalhes dos heróis
+     */
+    @Override
+    public void detalhesHeroi() {
+        super.detalhesHeroi();
     }
 
 
-    public int getForca() {
-        return super.getForca();
-    }
-
-
-    public Clone clonar() {
-        return (Clone) super.clonar();
-    }
 }

@@ -1,11 +1,5 @@
 package Itens;
 
-import Entidades.Entidade;
-import Entidades.Heroi;
-import Jogo.ConsoleColors;
-
-import java.util.ArrayList;
-
 public class Pocao extends Consumivel {
     int cura;
     int maisForca;
