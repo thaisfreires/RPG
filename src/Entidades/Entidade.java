@@ -22,10 +22,7 @@ public abstract class Entidade {
      * @return true
      */
     public boolean estaMorto(){
-        if (this.hp <= 0) {
-            return true;
-        }
-        return false;
+        return this.hp <= 0;
     }
 
     /**
@@ -42,6 +39,7 @@ public abstract class Entidade {
      */
     public void receberDano(int dano) {
         this.hp -= dano;
+        if(this.hp < 0) this.hp = 0;
     }
 
     public String getNome() {
